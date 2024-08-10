@@ -32,6 +32,11 @@ body {
            dark:text-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800/40;
   }
 
+  .react-select-theme-container .react-select-theme__option--is-disabled {
+    @apply bg-neutral-200 opacity-80 pointer-events-none
+           dark:bg-neutral-800/40;
+  }
+
   .react-select-theme-container .react-select-theme__indicator-separator {
     @apply bg-neutral-400;
   }

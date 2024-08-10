@@ -31,7 +31,10 @@ export default function ListView({
   return (
     <Section aria-readonly={true}>
       <Dropdown
-        options={LIST_OPTIONS}
+        options={LIST_OPTIONS.map((option) => ({
+          ...option,
+          disabled: option.value == listStatus,
+        }))}
         defaultValue={LIST_OPTIONS.find((o) => o.value === listStatus)}
         className={clsx("w-72", isDisabled && "opacity-50 cursor-pointer")}
         isDisabled={isDisabled}
