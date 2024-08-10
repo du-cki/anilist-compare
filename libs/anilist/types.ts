@@ -50,3 +50,9 @@ export type User = {
 
 export type AniListUserResponse = BaseResponse<Record<string, User>>;
 export type AniListMediaResponse = BaseResponse<Record<string, MediaList>>;
+
+export type AniListUserSearchResponse = BaseResponse<{
+  users: {
+    results: User[];
+  };
+}>;

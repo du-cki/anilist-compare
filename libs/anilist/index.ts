@@ -4,9 +4,11 @@ import {
   AniListError,
   AniListMediaResponse,
   AniListUserResponse,
+  AniListUserSearchResponse,
   ListType,
   Media,
   SearchType,
+  User,
 } from "./types";
 
 type TagParser = (url: Option<string>, text: Option<string>) => string;
@@ -49,6 +51,8 @@ class AniListClient {
       [key: string]: string;
     };
   }): Promise<T> {
+    console.log("Querying anilist...");
+
     const sentHeaders: { [key: string]: string } = {
       ...this.BASE_HEADERS,
       ...headers,
@@ -115,21 +119,21 @@ class AniListClient {
           (user) => `
             ${user}: MediaListCollection(userName: "${user}", type: $mediaType, status: $status) {
                 lists {
-                name
-                entries {
+                  name
+                  entries {
                     media {
-                    id
-                    title {
+                      id
+                      title {
                         romaji
-                    }
-                    coverImage {
+                      }
+                      coverImage {
                         extraLarge
                         color
+                      }
                     }
-                    }
+                  }
                 }
-                }
-            }
+              }
         `
         ),
       }
@@ -168,6 +172,31 @@ class AniListClient {
     ];
 
     return commonMedia;
+  }
+
+  async searchUsers({ search }: { search: string }): Promise<User[]> {
+    const query = `
+      query ($search: String) {
+        users: Page(perPage: 10) {
+          results: users(search: $search) {
+            id
+            name
+            avatar {
+              large
+            }
+          }
+        }
+      }
+    `;
+
+    const req = await this.query<AniListUserSearchResponse>({
+      query,
+      variables: {
+        search,
+      },
+    });
+
+    return req?.data?.users?.results || [];
   }
 }
 
