@@ -36,7 +36,7 @@ export default function ListView({
           disabled: option.value == listStatus,
         }))}
         defaultValue={LIST_OPTIONS.find((o) => o.value === listStatus)}
-        className={clsx("w-72", isDisabled && "opacity-50 cursor-pointer")}
+        className={clsx("w-40", isDisabled && "opacity-50 cursor-pointer")}
         isDisabled={isDisabled}
         isSearchable={false}
         onChange={(option) => {

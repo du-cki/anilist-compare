@@ -6,10 +6,14 @@ import Image from "next/image";
 import type { User } from "@/libs/anilist/types";
 
 export const CARD_COMMON_CLASSES = clsx(
-  "bg-gray-200/20 hover:bg-gray-200/40",
-  "dark:bg-gray-300/20 dark:hover:bg-gray-300/30",
   "transition-all py-2 px-3 rounded-lg",
   "text-lg md:text-2xl font-extrabold"
+);
+
+export const COLORED_COMMON_CLASSES = clsx(
+  CARD_COMMON_CLASSES,
+  "bg-gray-200/20 hover:bg-gray-200/40",
+  "dark:bg-gray-300/20 dark:hover:bg-gray-300/30"
 );
 
 type Props = {
@@ -21,7 +25,7 @@ function User({ user, onRemove }: Props) {
   return (
     <div
       className={clsx(
-        CARD_COMMON_CLASSES,
+        COLORED_COMMON_CLASSES,
         "flex items-center min-h-[70px] justify-between"
       )}
     >

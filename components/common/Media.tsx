@@ -15,13 +15,14 @@ export default function Media({ media }: Props) {
     <a
       className={clsx(
         CARD_COMMON_CLASSES,
-        "flex items-center min-h-[90px] relative overflow-clip"
+        "flex items-center min-h-[90px] relative overflow-clip",
+        "bg-none dark:bg-none hover:bg-none dark:hover:bg-none"
       )}
       href={`https://anilist.co/anime/${media.id}`}
     >
       {media.bannerImage && (
         <div
-          className="absolute top-0 right-0 bottom-0 left-0 h-full w-full -z-10 bg-cover opacity-40"
+          className="absolute top-0 right-0 bottom-0 left-0 h-full w-full -z-10 opacity-50"
           style={{
             backgroundImage: `url(${media.bannerImage})`,
           }}
