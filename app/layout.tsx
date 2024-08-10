@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <meta name="darkreader-lock" />
+        <meta name="darkreader-lock" key="darkreader-lock" />
       </Head>
 
       <body>{children}</body>

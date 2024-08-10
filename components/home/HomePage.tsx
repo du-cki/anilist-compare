@@ -2,42 +2,19 @@
 
 import React, { useState } from "react";
 
+import clsx from "clsx";
+import updateUrl from "@/utils/functions/updateUrl";
+
 import fetchComparedMedia from "@/utils/actions/fetchComparedMedia";
 
-import { LIST_OPTIONS } from "@/utils/common";
-
-import User from "../common/User";
-import Media from "../common/Media";
-import SearchUser from "../common/SearchUser";
-import Dropdown from "../common/Dropdown";
-import MediaSkeleton from "../common/MediaSkeleton";
+import UserView from "./UserView";
+import ListView from "./ListView";
 
 import type {
   ListStatus,
   Media as MediaT,
   User as UserT,
 } from "@/libs/anilist/types";
-import clsx from "clsx";
-import UserView from "./UserView";
-import ListView from "./ListView";
-
-function Section({
-  title,
-  children,
-}: {
-  title?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-3">
-      <div className="mb-2">
-        {title && <h2 className="text-2xl font-bold font-mono">{title}</h2>}
-      </div>
-
-      {children}
-    </div>
-  );
-}
 
 type Props = {
   initialUsers: UserT[];
@@ -66,20 +43,18 @@ export default function HomePage({
       setMedia([]);
       setIsDisabled(true);
       const usersToFetchFor = (forUsers || users).map((user) => user.name);
+      const list = forList || listStatus;
 
       if (usersToFetchFor.length <= 1) {
         return;
       }
 
-      const medias = await fetchComparedMedia(
-        usersToFetchFor,
-        forList || listStatus,
-        "ANIME"
-      );
+      const medias = await fetchComparedMedia(usersToFetchFor, list, "ANIME");
 
       setMedia(medias);
-    } catch (error) {
-      console.error(error);
+      updateUrl(`/${usersToFetchFor.join("/")}`, {
+        params: { list: list.toLowerCase() },
+      });
     } finally {
       setIsDisabled(false);
     }

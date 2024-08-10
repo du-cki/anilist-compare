@@ -3,16 +3,30 @@ import React from "react";
 import AniListClient from "@/libs/anilist";
 import HomePage from "@/components/home/HomePage";
 
-import type { Media as MediaT, User as UserT } from "@/libs/anilist/types";
+import { LIST_OPTIONS } from "@/utils/common";
+
+import type {
+  ListStatus,
+  Media as MediaT,
+  User as UserT,
+} from "@/libs/anilist/types";
+
+const DEFAULT_LIST_STATUS: ListStatus = "PLANNING";
 
 type Props = {
   params: { slug?: string[] };
+  searchParams: { list?: string };
 };
 
-export default async function page({ params: { slug } }: Props) {
+export default async function page({
+  params: { slug },
+  searchParams: { list },
+}: Props) {
   const client = new AniListClient();
 
-  const listStatus = "PLANNING";
+  const listStatus =
+    LIST_OPTIONS.find((o) => o.value === list?.toUpperCase())?.value ||
+    DEFAULT_LIST_STATUS;
 
   let users = [] as UserT[];
   try {
