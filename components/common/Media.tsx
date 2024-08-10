@@ -22,7 +22,7 @@ export default function Media({ media }: Props) {
     >
       {media.bannerImage && (
         <div
-          className="absolute top-0 right-0 bottom-0 left-0 h-full w-full -z-10 opacity-50"
+          className="absolute top-0 right-0 bottom-0 left-0 h-full w-full -z-10 opacity-50 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(${media.bannerImage})`,
           }}
