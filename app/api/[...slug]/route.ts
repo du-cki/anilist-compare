@@ -2,15 +2,14 @@ import fetchComparedMedia from "@/utils/actions/fetchComparedMedia";
 
 import { DEFAULT_LIST_STATUS, LIST_OPTIONS } from "@/utils/common";
 
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 import type { ListStatus } from "@/libs/anilist/types";
-import type { NextApiRequest } from "next";
 
 const json = (data: any, status: number = 200) =>
   NextResponse.json(data, { status });
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
   if (!req.url) return;
   const { pathname, searchParams } = new URL(req.url);
 
