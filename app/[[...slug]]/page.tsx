@@ -3,15 +3,13 @@ import React from "react";
 import AniListClient from "@/libs/anilist";
 import HomePage from "@/components/home/HomePage";
 
-import { LIST_OPTIONS } from "@/utils/common";
+import { DEFAULT_LIST_STATUS, LIST_OPTIONS } from "@/utils/common";
 
 import type {
   ListStatus,
   Media as MediaT,
   User as UserT,
 } from "@/libs/anilist/types";
-
-const DEFAULT_LIST_STATUS: ListStatus = "PLANNING";
 
 type Props = {
   params: { slug?: string[] };
