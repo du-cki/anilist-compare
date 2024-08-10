@@ -12,7 +12,7 @@ type Props = {
 export default async function page({ params: { slug } }: Props) {
   const client = new AniListClient();
 
-  const listStatus = "COMPLETED";
+  const listStatus = "PLANNING";
 
   let users = [] as UserT[];
   try {

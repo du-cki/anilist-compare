@@ -12,11 +12,12 @@ type Props = {
 
 export default function Media({ media }: Props) {
   return (
-    <div
+    <a
       className={clsx(
         CARD_COMMON_CLASSES,
         "flex items-center min-h-[90px] relative overflow-clip"
       )}
+      href={`https://anilist.co/anime/${media.id}`}
     >
       {media.bannerImage && (
         <div
@@ -35,12 +36,7 @@ export default function Media({ media }: Props) {
         className="rounded-md mr-3"
       />
 
-      <a
-        href={`https://anilist.co/anime/${media.id}`}
-        className="hover:underline line-clamp-2"
-      >
-        {media.title.romaji}
-      </a>
-    </div>
+      <p className="hover:underline line-clamp-2">{media.title.romaji}</p>
+    </a>
   );
 }

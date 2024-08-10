@@ -1,12 +1,15 @@
-import { Inter } from "next/font/google";
+import Head from "next/head";
 
-import AniListClient from "@/libs/anilist";
-
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const metadata: Metadata = {
   title: "AniList Comparsion Tool",
@@ -20,7 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <Head>
+        <meta name="darkreader-lock" />
+      </Head>
+
+      <body>{children}</body>
     </html>
   );
 }

@@ -29,12 +29,13 @@ export default function ListView({
   onListChange,
 }: Props) {
   return (
-    <Section>
+    <Section aria-readonly={true}>
       <Dropdown
         options={LIST_OPTIONS}
         defaultValue={LIST_OPTIONS.find((o) => o.value === listStatus)}
-        className={clsx("w-72", isDisabled && "opacity-50")}
+        className={clsx("w-72", isDisabled && "opacity-50 cursor-pointer")}
         isDisabled={isDisabled}
+        isSearchable={false}
         onChange={(option) => {
           if (option) onListChange?.(option.value);
         }}

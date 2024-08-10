@@ -33,6 +33,7 @@ export default function SearchUser({ ...props }: Props) {
       cacheOptions={true}
       instanceId="search_user"
       value={null}
+      className="searchable"
       loadOptions={loadUserOptions}
       formatOptionLabel={(option: OptionT) => (
         <div className="flex items-center space-x-3 max-h-[40px] min-h-[40px] overflow-hidden">

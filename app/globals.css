@@ -3,12 +3,17 @@
 @tailwind utilities;
 
 body {
-  @apply dark:bg-dark-mode dark:text-dark-text bg-light-mode text-light-text select-none;
+  @apply bg-light-mode text-light-text select-none
+         dark:bg-dark-mode dark:text-dark-text;
 }
 
 @layer components {
+  .react-select-theme-container.searchable .react-select-theme__control {
+    @apply hover:cursor-text;
+  }
+
   .react-select-theme-container .react-select-theme__control {
-    @apply bg-white border-neutral-300 hover:border-neutral-400 border-2 transition-all hover:cursor-text
+    @apply bg-white border-neutral-300 hover:border-neutral-400 border-2 transition-all 
            dark:bg-neutral-700 dark:border-neutral-700 dark:hover:border-neutral-500;
   }
 
