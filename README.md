@@ -21,7 +21,7 @@ This app also exposes a few JSON API routes;
 
 #### Example Request:
 
-```json
+```sh
 $ curl -X POST /api/ducki3/blankets/itswilli?list=PLANNING
 
 [
