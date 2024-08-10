@@ -7,11 +7,8 @@ import userOptions from "@/utils/actions/userOptions";
 
 import AsyncSelect from "react-select/async";
 
-type OptionT = {
-  label: string;
-  value: any;
-  disabled?: boolean;
-};
+import AsyncDropdown from "./AsyncDropdown";
+import type { OptionT } from "./Dropdown";
 
 const loadUserOptions = debounce(
   (search: string, callback: (options: OptionT[]) => void) => {
@@ -31,16 +28,14 @@ type Props = {} & React.ComponentProps<typeof AsyncSelect<OptionT>>;
 
 export default function SearchUser({ ...props }: Props) {
   return (
-    <AsyncSelect
+    <AsyncDropdown
       placeholder="Search"
       cacheOptions={true}
       instanceId="search_user"
-      className="react-select-theme-container"
-      classNamePrefix="react-select-theme"
-      noOptionsMessage={() => null}
       value={null}
+      loadOptions={loadUserOptions}
       formatOptionLabel={(option: OptionT) => (
-        <div className="flex items-center space-x-3 max-h-[40px] min-h-[40px]">
+        <div className="flex items-center space-x-3 max-h-[40px] min-h-[40px] overflow-hidden">
           <Image
             src={option.value.avatar.large}
             alt={`${option.value.name}'s avatar`}
@@ -53,8 +48,6 @@ export default function SearchUser({ ...props }: Props) {
           <p>{option.label}</p>
         </div>
       )}
-      loadOptions={loadUserOptions}
-      isOptionDisabled={(option) => !!option.disabled}
       {...props}
     />
   );

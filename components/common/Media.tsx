@@ -13,18 +13,26 @@ type Props = {
 export default function Media({ media }: Props) {
   return (
     <div
-      key={media.id}
       className={clsx(
         CARD_COMMON_CLASSES,
-        "flex items-center space-x-3 min-h-[70px]"
+        "flex items-center min-h-[90px] relative overflow-clip"
       )}
     >
+      {media.bannerImage && (
+        <div
+          className="absolute top-0 right-0 bottom-0 left-0 h-full w-full -z-10 bg-cover opacity-40"
+          style={{
+            backgroundImage: `url(${media.bannerImage})`,
+          }}
+        />
+      )}
+
       <Image
-        src={media.coverImage.extraLarge}
+        src={media.coverImage.medium}
         alt={`${media.title.romaji}'s cover image`}
         height="50"
         width="50"
-        className="rounded-md"
+        className="rounded-md mr-3"
       />
 
       <a

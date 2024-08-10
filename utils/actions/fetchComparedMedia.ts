@@ -10,7 +10,5 @@ export default async function fetchComparedMedia(
 ): Promise<Media[]> {
   const client = new AniListClient();
 
-  console.log({ users, listStatus, mediaType });
-
   return client.compareUserMediaLists({ users, listStatus, mediaType });
 }

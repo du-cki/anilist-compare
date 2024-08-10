@@ -8,7 +8,7 @@ body {
 
 @layer components {
   .react-select-theme-container .react-select-theme__control {
-    @apply bg-white border-neutral-300 hover:border-neutral-400 border-2 transition-all
+    @apply bg-white border-neutral-300 hover:border-neutral-400 border-2 transition-all hover:cursor-text
            dark:bg-neutral-700 dark:border-neutral-700 dark:hover:border-neutral-500;
   }
 

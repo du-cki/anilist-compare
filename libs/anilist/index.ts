@@ -43,16 +43,12 @@ class AniListClient {
     headers,
   }: {
     query: string;
-    variables?: {
-      [key: string]: any;
-    };
-    headers?: {
-      [key: string]: string;
-    };
+    variables?: Record<string, any>;
+    headers?: Record<string, string>;
   }): Promise<T> {
     console.log("Querying anilist...");
 
-    const sentHeaders: { [key: string]: string } = {
+    const sentHeaders: Record<string, string> = {
       ...this.BASE_HEADERS,
       ...headers,
     };
@@ -122,9 +118,10 @@ class AniListClient {
                         romaji
                       }
                       coverImage {
-                        extraLarge
+                        medium
                         color
                       }
+                      bannerImage
                     }
                   }
                 }

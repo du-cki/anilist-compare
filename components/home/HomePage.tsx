@@ -2,25 +2,37 @@
 
 import React, { useState } from "react";
 
-import User from "../common/User";
-import Media from "../common/Media";
-
-import SearchUser from "../common/SearchUser";
-
 import fetchComparedMedia from "@/utils/actions/fetchComparedMedia";
 
-import type { Media as MediaT, User as UserT } from "@/libs/anilist/types";
+import { LIST_OPTIONS } from "@/utils/common";
+
+import User from "../common/User";
+import Media from "../common/Media";
+import SearchUser from "../common/SearchUser";
+import Dropdown from "../common/Dropdown";
+import MediaSkeleton from "../common/MediaSkeleton";
+
+import type {
+  ListStatus,
+  Media as MediaT,
+  User as UserT,
+} from "@/libs/anilist/types";
+import clsx from "clsx";
+import UserView from "./UserView";
+import ListView from "./ListView";
 
 function Section({
   title,
   children,
 }: {
-  title: string;
+  title?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="space-y-3">
-      <h2 className="text-2xl font-bold font-mono mb-2">{title}</h2>
+      <div className="mb-2">
+        {title && <h2 className="text-2xl font-bold font-mono">{title}</h2>}
+      </div>
 
       {children}
     </div>
@@ -30,14 +42,29 @@ function Section({
 type Props = {
   initialUsers: UserT[];
   initialMedia: MediaT[];
+  initialListStatus: ListStatus;
 };
 
-export default function HomePage({ initialUsers, initialMedia }: Props) {
+export default function HomePage({
+  initialUsers,
+  initialMedia,
+  initialListStatus,
+}: Props) {
   const [users, setUsers] = useState(initialUsers);
   const [media, setMedia] = useState(initialMedia);
+  const [listStatus, setListStatus] = useState(initialListStatus);
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  const refetchData = async (forUsers?: UserT[]) => {
+  const refetchData = async ({
+    forUsers,
+    forList,
+  }: {
+    forUsers?: UserT[];
+    forList?: ListStatus;
+  }) => {
     try {
+      setMedia([]);
+      setIsDisabled(true);
       const usersToFetchFor = (forUsers || users).map((user) => user.name);
 
       if (usersToFetchFor.length <= 1) {
@@ -46,63 +73,55 @@ export default function HomePage({ initialUsers, initialMedia }: Props) {
 
       const medias = await fetchComparedMedia(
         usersToFetchFor,
-        "COMPLETED",
+        forList || listStatus,
         "ANIME"
       );
 
       setMedia(medias);
     } catch (error) {
-      setUsers([]);
       console.error(error);
+    } finally {
+      setIsDisabled(false);
     }
   };
 
-  const onUserRemove = async (id: number) => {
-    setMedia([]);
+  const onUserAdd = async (user: UserT) => {
+    const _users = [...users, user];
 
-    const newUsers = users.filter((user) => user.id !== id);
-    setUsers(newUsers);
-
-    await refetchData(newUsers);
+    setUsers(_users);
+    await refetchData({ forUsers: _users });
   };
 
-  const onUserAdd = async (user: UserT) => {
-    setMedia([]);
+  const onUserRemove = async (id: number) => {
+    const _users = users.filter((user) => user.id !== id);
 
-    const newUsers = [...users, user];
-    setUsers(newUsers);
+    setUsers(_users);
+    await refetchData({ forUsers: _users });
+  };
 
-    await refetchData(newUsers);
+  const onListChange = async (status: ListStatus) => {
+    setListStatus(status);
+    await refetchData({ forList: status });
   };
 
   return (
     <div className="w-full md:w-3/4 xl:w-2/4 px-6 space-y-4">
-      <SearchUser
-        onChange={(option) => {
-          if (option) onUserAdd(option.value);
-        }}
+      <UserView
+        users={users}
+        refetch={refetchData}
+        isDisabled={isDisabled}
+        onUserAdd={onUserAdd}
+        onUserRemove={onUserRemove}
       />
 
-      <div className="pt-8 space-y-4">
-        {Object.keys(users).length > 0 && (
-          <Section title="Users">
-            <div className="space-y-3">
-              {users.map((user) => (
-                <User user={user} key={user.id} onRemove={onUserRemove} />
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {media.length > 0 && (
-          <Section title="Media">
-            <div className="space-y-3">
-              {media.map((media) => (
-                <Media media={media} key={media.id} />
-              ))}
-            </div>
-          </Section>
-        )}
+      <div className="pt-5">
+        <ListView
+          media={media}
+          listStatus={listStatus}
+          isDisabled={isDisabled}
+          refetch={refetchData}
+          onListChange={onListChange}
+        />
       </div>
     </div>
   );

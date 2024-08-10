@@ -1,3 +1,5 @@
+import { LIST_OPTIONS } from "@/utils/common";
+
 export type AniListError = {
   errors: {
     message: string;
@@ -12,13 +14,7 @@ type BaseResponse<T> = {
 
 export type MediaType = "ANIME" | "MANGA";
 
-export type ListStatus =
-  | "COMPLETED"
-  | "CURRENT"
-  | "PLANNING"
-  | "DROPPED"
-  | "REPEATING"
-  | "PAUSED";
+export type ListStatus = (typeof LIST_OPTIONS)[number]["value"];
 
 export type Media = {
   id: number;
@@ -26,9 +22,10 @@ export type Media = {
     romaji: string;
   };
   coverImage: {
-    extraLarge: string;
+    medium: string;
     color: string;
   };
+  bannerImage: Option<string>;
 };
 
 export type MediaList = {

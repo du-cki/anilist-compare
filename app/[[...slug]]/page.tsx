@@ -12,6 +12,8 @@ type Props = {
 export default async function page({ params: { slug } }: Props) {
   const client = new AniListClient();
 
+  const listStatus = "COMPLETED";
+
   let users = [] as UserT[];
   try {
     if (slug) {
@@ -28,7 +30,7 @@ export default async function page({ params: { slug } }: Props) {
     try {
       media = await client.compareUserMediaLists({
         users: slug,
-        listStatus: "COMPLETED",
+        listStatus,
       });
     } catch {
       media = [];
@@ -37,7 +39,11 @@ export default async function page({ params: { slug } }: Props) {
 
   return (
     <div className="flex flex-col items-center my-16">
-      <HomePage initialUsers={users} initialMedia={media} />
+      <HomePage
+        initialUsers={users}
+        initialMedia={media}
+        initialListStatus={listStatus}
+      />
     </div>
   );
 }
