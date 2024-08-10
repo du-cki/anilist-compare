@@ -108,18 +108,16 @@ export default function HomePage({
     <div className="w-full md:w-3/4 xl:w-2/4 px-6 space-y-4">
       <UserView
         users={users}
-        refetch={refetchData}
         isDisabled={isDisabled}
         onUserAdd={onUserAdd}
         onUserRemove={onUserRemove}
       />
 
-      <div className="pt-5">
+      <div className={clsx("pt-5", users.length <= 1 && "hidden")}>
         <ListView
           media={media}
           listStatus={listStatus}
           isDisabled={isDisabled}
-          refetch={refetchData}
           onListChange={onListChange}
         />
       </div>

@@ -19,8 +19,6 @@ type Props = {
   isDisabled: boolean;
 
   onListChange?: (status: ListStatus) => void;
-
-  refetch?: (...args: any) => Promise<void>;
 };
 
 export default function ListView({
@@ -29,7 +27,6 @@ export default function ListView({
   isDisabled,
 
   onListChange,
-  refetch,
 }: Props) {
   return (
     <Section>
@@ -44,7 +41,6 @@ export default function ListView({
       />
 
       <div className="space-y-3">
-        {/* <MediaSkeleton /> */}
         {isDisabled ? (
           <>
             <MediaSkeleton />

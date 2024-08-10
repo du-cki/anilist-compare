@@ -15,7 +15,6 @@ type Props = {
 
   onUserAdd?: (user: UserT) => void;
   onUserRemove?: (id: number) => void;
-  refetch?: (...args: any) => Promise<void>;
 };
 
 export default function UserView({
