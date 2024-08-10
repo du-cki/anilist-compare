@@ -1,5 +1,6 @@
 {
   "tailwindCSS.experimental.classRegex": [
     ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-  ]
+  ],
+  "css.lint.unknownAtRules": "ignore"
 }

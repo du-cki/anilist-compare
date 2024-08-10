@@ -10,9 +10,9 @@ type BaseResponse<T> = {
   data: T;
 };
 
-export type SearchType = "ANIME" | "MANGA";
+export type MediaType = "ANIME" | "MANGA";
 
-export type ListType =
+export type ListStatus =
   | "COMPLETED"
   | "CURRENT"
   | "PLANNING"
@@ -33,7 +33,7 @@ export type Media = {
 
 export type MediaList = {
   lists: {
-    name: ListType;
+    name: ListStatus;
     entries: {
       media: Media;
     }[];

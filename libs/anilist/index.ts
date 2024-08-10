@@ -1,13 +1,12 @@
 import tag from "@/utils/functions/tag";
 
 import {
-  AniListError,
   AniListMediaResponse,
   AniListUserResponse,
   AniListUserSearchResponse,
-  ListType,
   Media,
-  SearchType,
+  MediaType,
+  ListStatus,
   User,
 } from "./types";
 
@@ -76,11 +75,7 @@ class AniListClient {
     return data;
   }
 
-  async fetchUserProfiles({
-    users,
-  }: {
-    users: string[];
-  }): Promise<AniListUserResponse["data"]> {
+  async fetchUserProfiles({ users }: { users: string[] }): Promise<User[]> {
     const query = tag(`query {{users}}`, {
       users: users.map(
         (user) => `
@@ -100,17 +95,17 @@ class AniListClient {
       variables: {},
     });
 
-    return data.data;
+    return Object.values(data.data);
   }
 
   async compareUserMediaLists({
     users,
-    search_type,
-    list_type,
+    mediaType,
+    listStatus,
   }: {
     users: string[];
-    search_type?: SearchType;
-    list_type?: ListType;
+    mediaType?: MediaType;
+    listStatus?: ListStatus;
   }): Promise<Media[]> {
     const query = tag(
       `query ($mediaType: MediaType, $status: MediaListStatus) {{users}}`,
@@ -142,8 +137,8 @@ class AniListClient {
     const req = await this.query<AniListMediaResponse>({
       query,
       variables: {
-        mediaType: search_type ?? "ANIME",
-        status: list_type ?? "PLANNING",
+        mediaType: mediaType ?? "ANIME",
+        status: listStatus ?? "PLANNING",
       },
     });
 

@@ -29,7 +29,7 @@ export default function Media({ media }: Props) {
 
       <a
         href={`https://anilist.co/anime/${media.id}`}
-        className="hover:underline"
+        className="hover:underline line-clamp-2"
       >
         {media.title.romaji}
       </a>

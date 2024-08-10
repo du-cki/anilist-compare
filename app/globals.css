@@ -2,7 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-    @apply dark:bg-dark-mode dark:text-dark-text bg-light-mode text-light-text select-none;
+  @apply dark:bg-dark-mode dark:text-dark-text bg-light-mode text-light-text select-none;
+}
+
+@layer components {
+  .react-select-theme-container .react-select-theme__control {
+    @apply bg-white border-neutral-300 hover:border-neutral-400 border-2 transition-all
+           dark:bg-neutral-700 dark:border-neutral-700 dark:hover:border-neutral-500;
+  }
+
+  .react-select-theme-container .react-select-theme__control--is-focused {
+    @apply border-neutral-500 hover:border-neutral-500 shadow-none transition-all
+           dark:border-neutral-400 dark:hover:border-neutral-400;
+  }
+
+  .react-select-theme-container .react-select-theme__menu {
+    @apply bg-neutral-100 border-neutral-300 border-2 transition-all
+           dark:bg-neutral-700 dark:border-neutral-600;
+  }
+
+  .react-select-theme-container .react-select-theme__option {
+    @apply text-neutral-600 bg-neutral-100 hover:bg-neutral-200 transition-all
+           dark:text-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800/40;
+  }
+
+  .react-select-theme-container .react-select-theme__indicator-separator {
+    @apply bg-neutral-400;
+  }
+
+  .react-select-theme-container .react-select-theme__input-container,
+  .react-select-theme-container .react-select-theme__placeholder,
+  .react-select-theme-container .react-select-theme__single-value {
+    @apply text-neutral-600 transition-all
+           dark:text-neutral-200;
+  }
 }

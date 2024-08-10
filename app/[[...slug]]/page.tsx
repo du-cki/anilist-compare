@@ -6,27 +6,29 @@ import HomePage from "@/components/home/HomePage";
 import type { Media as MediaT, User as UserT } from "@/libs/anilist/types";
 
 type Props = {
-  params: { slug: string[] };
+  params: { slug?: string[] };
 };
 
 export default async function page({ params: { slug } }: Props) {
   const client = new AniListClient();
 
-  let users = {} as Record<string, UserT>;
+  let users = [] as UserT[];
   try {
-    users = await client.fetchUserProfiles({
-      users: slug,
-    });
+    if (slug) {
+      users = await client.fetchUserProfiles({
+        users: slug,
+      });
+    }
   } catch {
-    users = {};
+    users = [];
   }
 
   let media = [] as MediaT[];
-  if (slug.length > 1) {
+  if (slug && slug.length > 1) {
     try {
       media = await client.compareUserMediaLists({
         users: slug,
-        list_type: "COMPLETED",
+        listStatus: "COMPLETED",
       });
     } catch {
       media = [];
