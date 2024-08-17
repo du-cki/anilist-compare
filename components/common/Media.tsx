@@ -66,7 +66,11 @@ export default function Media({ media, isOpened, ...props }: Props) {
                 {user}
               </a>
               {": "}
-              (Last Update: {moment(status.updatedAt * 1000).fromNow()})
+              (Last Update:{" "}
+              {status.updatedAt
+                ? moment(status.updatedAt * 1000).fromNow()
+                : "N/A"}
+              )
             </span>
 
             <div className="pl-2">
