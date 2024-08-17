@@ -8,6 +8,8 @@ import {
   MediaType,
   ListStatus,
   User,
+  Status,
+  ComparedListResponse,
 } from "./types";
 
 type TagParser = (url: Option<string>, text: Option<string>) => string;
@@ -102,7 +104,7 @@ class AniListClient {
     users: string[];
     mediaType?: MediaType;
     listStatus?: ListStatus;
-  }): Promise<Media[]> {
+  }): Promise<ComparedListResponse> {
     const query = tag(
       `query ($mediaType: MediaType, $status: MediaListStatus) {{users}}`,
       {
@@ -112,16 +114,23 @@ class AniListClient {
                 lists {
                   name
                   entries {
+                    score(format: POINT_10_DECIMAL)
+                    progress
+                    progressVolumes
+                    repeat
+                    updatedAt
                     media {
                       id
                       title {
                         romaji
                       }
+                      episodes
+                      chapters
+                      bannerImage
                       coverImage {
                         medium
                         color
                       }
-                      bannerImage
                     }
                   }
                 }
@@ -131,15 +140,13 @@ class AniListClient {
       }
     );
 
-    const req = await this.query<AniListMediaResponse>({
+    const { data: resp } = await this.query<AniListMediaResponse>({
       query,
       variables: {
         mediaType: mediaType ?? "ANIME",
         status: listStatus ?? "PLANNING",
       },
     });
-
-    const resp = req.data;
 
     const mediaSets = Object.values(resp).map(
       ({ lists }) =>
@@ -159,7 +166,39 @@ class AniListClient {
             lists.flatMap(({ entries }) => entries.map(({ media }) => media))
           )
           .filter(({ id }) => commonMediaIDs.has(id))
-          .map((media) => [media.id, media])
+          .map((media) => {
+            const statuses = Object.entries(resp).reduce(
+              (acc, [user, { lists }]) => {
+                const entry = lists?.[0]?.entries.find(
+                  ({ media: { id } }) => id === media.id
+                );
+
+                if (entry) {
+                  return {
+                    ...acc,
+                    [user]: {
+                      score: entry.score,
+                      progress: entry.progress,
+                      progressVolumes: entry.progressVolumes,
+                      repeat: entry.repeat,
+                      updatedAt: entry.updatedAt,
+                    },
+                  };
+                }
+
+                return acc;
+              },
+              {} as Record<string, Status>
+            );
+
+            return [
+              media.id,
+              {
+                ...media,
+                statuses,
+              },
+            ];
+          })
       ).values(),
     ];
 

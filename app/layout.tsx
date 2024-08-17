@@ -1,5 +1,3 @@
-import Head from "next/head";
-
 import type { Metadata, Viewport } from "next";
 
 import "./globals.css";
@@ -14,6 +12,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "AniList Comparsion Tool",
   description: "A simple tool for comparing AniList profiles",
+  other: { name: "darkreader-lock", content: "darkreader-lock" },
 };
 
 export default function RootLayout({
@@ -23,9 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
+      <head>
         <meta name="darkreader-lock" key="darkreader-lock" />
-      </Head>
+        <base target="_blank" />
+      </head>
 
       <body>{children}</body>
     </html>

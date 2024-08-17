@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+.default-text {
+  @apply text-light-text dark:text-dark-text;
+}
+
 body {
-  @apply bg-light-mode text-light-text select-none
-         dark:bg-dark-mode dark:text-dark-text;
+  @apply bg-light-mode default-text select-none
+         dark:bg-dark-mode;
 }
 
 @layer components {

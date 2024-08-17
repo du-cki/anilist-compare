@@ -11,14 +11,14 @@ import UserView from "./UserView";
 import ListView from "./ListView";
 
 import type {
+  ComparedListResponse,
   ListStatus,
-  Media as MediaT,
   User as UserT,
 } from "@/libs/anilist/types";
 
 type Props = {
   initialUsers: UserT[];
-  initialMedia: MediaT[];
+  initialMedia: ComparedListResponse;
   initialListStatus: ListStatus;
 };
 

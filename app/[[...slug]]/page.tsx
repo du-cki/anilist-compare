@@ -5,11 +5,7 @@ import HomePage from "@/components/home/HomePage";
 
 import { DEFAULT_LIST_STATUS, LIST_OPTIONS } from "@/utils/common";
 
-import type {
-  ListStatus,
-  Media as MediaT,
-  User as UserT,
-} from "@/libs/anilist/types";
+import type { ComparedListResponse, User as UserT } from "@/libs/anilist/types";
 
 type Props = {
   params: { slug?: string[] };
@@ -37,7 +33,7 @@ export default async function page({
     users = [];
   }
 
-  let media = [] as MediaT[];
+  let media = [] as ComparedListResponse;
   if (slug && slug.length > 1) {
     try {
       media = await client.compareUserMediaLists({

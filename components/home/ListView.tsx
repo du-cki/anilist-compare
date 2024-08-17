@@ -10,11 +10,11 @@ import Media from "../common/Media";
 import Dropdown from "../common/Dropdown";
 import Section from "./Section";
 
-import type { ListStatus, Media as MediaT } from "@/libs/anilist/types";
+import type { ComparedListResponse, ListStatus } from "@/libs/anilist/types";
 import MediaSkeleton from "../common/MediaSkeleton";
 
 type Props = {
-  media: MediaT[];
+  media: ComparedListResponse;
   listStatus: ListStatus;
   isDisabled: boolean;
 
@@ -28,6 +28,10 @@ export default function ListView({
 
   onListChange,
 }: Props) {
+  const [currentlyOpened, setCurrentlyOpened] = useState(
+    null as Option<number>
+  );
+
   return (
     <Section aria-readonly={true}>
       <Dropdown
@@ -54,7 +58,18 @@ export default function ListView({
             <MediaSkeleton />
           </>
         ) : (
-          media.map((media) => <Media media={media} key={media.id} />)
+          media.map((media) => (
+            <Media
+              media={media}
+              key={media.id}
+              isOpened={currentlyOpened === media.id}
+              onClick={() =>
+                setCurrentlyOpened(
+                  currentlyOpened === media.id ? null : media.id
+                )
+              }
+            />
+          ))
         )}
       </div>
     </Section>

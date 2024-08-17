@@ -21,20 +21,30 @@ export type Media = {
   title: {
     romaji: string;
   };
+  episodes: Option<string>;
+  chapters: Option<string>;
+  bannerImage: Option<string>;
   coverImage: {
     medium: string;
     color: string;
   };
-  bannerImage: Option<string>;
 };
 
 export type MediaList = {
   lists: {
     name: ListStatus;
-    entries: {
+    entries: ({
       media: Media;
-    }[];
+    } & Status)[];
   }[];
+};
+
+export type Status = {
+  score: number;
+  progress: number;
+  progressVolumes: Option<number>; // for mangas
+  repeat: number;
+  updatedAt: number;
 };
 
 export type User = {
@@ -44,6 +54,10 @@ export type User = {
     large: string;
   };
 };
+
+export type ComparedListResponse = (Media & {
+  statuses: Record<string, Status>;
+})[];
 
 export type AniListUserResponse = BaseResponse<Record<string, User>>;
 export type AniListMediaResponse = BaseResponse<Record<string, MediaList>>;
