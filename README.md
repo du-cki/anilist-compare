@@ -22,7 +22,7 @@ This app also exposes a few JSON API routes;
 #### Example Request:
 
 ```sh
-$ curl -X POST /api/ducki3/blankets/itswilli?list=PLANNING
+$ curl -X POST /api/ducki3/blankets/itswilli?list=COMPLETED
 
 [
     {
@@ -30,11 +30,36 @@ $ curl -X POST /api/ducki3/blankets/itswilli?list=PLANNING
         "title": {
             "romaji": "Kaguya-sama wa Kokurasetai: Tensaitachi no Renai Zunousen"
         },
+        "episodes": 12,
+        "chapters": null,
+        "bannerImage": "https://s4.anilist.co/file/anilistcdn/media/anime/banner/101921-GgvvFhlNhzlF.jpg",
         "coverImage": {
-            "medium":"https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx101921-VvdGQy1ZySYf.jpg",
-            "color":"#e45086"
+            "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx101921-VvdGQy1ZySYf.jpg",
+            "color": "#e45086"
         },
-        "bannerImage":"https://s4.anilist.co/file/anilistcdn/media/anime/banner/101921-GgvvFhlNhzlF.jpg"
+        "statuses": {
+            "ducki3": {
+                "score": 9,
+                "progress": 12,
+                "progressVolumes": null,
+                "repeat": 0,
+                "updatedAt": 1711611771
+            },
+            "blankets": {
+                "score": 9,
+                "progress": 12,
+                "progressVolumes": null,
+                "repeat": 0,
+                "updatedAt": 0
+            },
+            "itswilli": {
+                "score": 8.5,
+                "progress": 12,
+                "progressVolumes": null,
+                "repeat": 0,
+                "updatedAt": 1649139401
+            }
+        }
     }
 ]
 ```
