@@ -10,10 +10,15 @@ export const CARD_COMMON_CLASSES = clsx(
   "text-lg md:text-2xl font-extrabold"
 );
 
+export const CARD_BACKGROUND = clsx("bg-gray-200/20 dark:bg-gray-300/20");
+export const CARD_HOVER_BACKGROUND = clsx(
+  "hover:bg-gray-200/40 dark:hover:bg-gray-300/40"
+);
+
 export const COLORED_COMMON_CLASSES = clsx(
   CARD_COMMON_CLASSES,
-  "bg-gray-200/20 hover:bg-gray-200/40",
-  "dark:bg-gray-300/20 dark:hover:bg-gray-300/30"
+  CARD_BACKGROUND,
+  CARD_HOVER_BACKGROUND
 );
 
 type Props = {

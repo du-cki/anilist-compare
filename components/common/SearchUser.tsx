@@ -36,14 +36,14 @@ export default function SearchUser({ ...props }: Props) {
       className="searchable"
       loadOptions={loadUserOptions}
       formatOptionLabel={(option: OptionT) => (
-        <div className="flex items-center space-x-3 max-h-[40px] min-h-[40px] overflow-hidden">
+        <div className="flex items-center space-x-3 h-[40px] overflow-hidden">
           <Image
             src={option.value.avatar.large}
             alt={`${option.value.name}'s avatar`}
             loading="lazy"
             height={35}
             width={35}
-            className="rounded-md"
+            className="rounded-md h-[35px] w-[35px] object-cover"
           />
 
           <p>{option.label}</p>
