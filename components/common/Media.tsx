@@ -52,7 +52,7 @@ export default function Media({ media, isOpened, ...props }: Props) {
       <div
         className={clsx(
           CARD_BACKGROUND,
-          "w-full transition-all ease-in-out duration-200 p-3 space-y-3",
+          "w-full transition-all ease-linear duration-400 p-3 space-y-3",
           !isOpened && "h-0 py-0"
         )}
       >
