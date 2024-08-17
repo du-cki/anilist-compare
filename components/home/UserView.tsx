@@ -5,8 +5,6 @@ import React from "react";
 import User from "../common/User";
 import SearchUser from "../common/SearchUser";
 
-import Section from "./Section";
-
 import type { User as UserT } from "@/libs/anilist/types";
 
 type Props = {
@@ -33,13 +31,11 @@ export default function UserView({
       />
 
       {users.length > 0 && (
-        <Section title="Users">
-          <div className="space-y-3">
-            {users.map((user) => (
-              <User user={user} key={user.id} onRemove={onUserRemove} />
-            ))}
-          </div>
-        </Section>
+        <div className="space-y-3 pt-3">
+          {users.map((user) => (
+            <User user={user} key={user.id} onRemove={onUserRemove} />
+          ))}
+        </div>
       )}
     </>
   );

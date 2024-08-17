@@ -8,7 +8,6 @@ import { LIST_OPTIONS } from "@/utils/common";
 
 import Media from "../common/Media";
 import Dropdown from "../common/Dropdown";
-import Section from "./Section";
 
 import type { ComparedListResponse, ListStatus } from "@/libs/anilist/types";
 import MediaSkeleton from "../common/MediaSkeleton";
@@ -33,14 +32,14 @@ export default function ListView({
   );
 
   return (
-    <Section aria-readonly={true}>
+    <div>
       <Dropdown
         options={LIST_OPTIONS.map((option) => ({
           ...option,
           disabled: option.value == listStatus,
         }))}
         defaultValue={LIST_OPTIONS.find((o) => o.value === listStatus)}
-        className={clsx("w-40", isDisabled && "opacity-50 cursor-pointer")}
+        className={clsx("w-40 mb-4", isDisabled && "opacity-50 cursor-pointer")}
         isDisabled={isDisabled}
         isSearchable={false}
         onChange={(option) => {
@@ -72,6 +71,6 @@ export default function ListView({
           ))
         )}
       </div>
-    </Section>
+    </div>
   );
 }
