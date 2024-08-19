@@ -1,11 +1,14 @@
 import React from "react";
 
 import clsx from "clsx";
+import moment from "moment";
+
+import Image from "next/image";
+import CaretSvg from "@/public/assets/caret.svg";
+
 import { CARD_BACKGROUND, CARD_COMMON_CLASSES } from "./User";
 
 import type { ComparedListResponse } from "@/libs/anilist/types";
-import Image from "next/image";
-import moment from "moment";
 
 type Props = {
   media: ComparedListResponse[number];
@@ -47,12 +50,22 @@ export default function Media({ media, isOpened, ...props }: Props) {
         </a>
 
         <span className="line-clamp-2">{media.title.romaji}</span>
+
+        <CaretSvg
+          className={clsx(
+            "fill-dark-mode dark:fill-light-mode",
+            "ml-auto min-w-[50px] transition-all duration-300",
+            isOpened && "-rotate-180"
+          )}
+          height="50"
+          width="50"
+        />
       </div>
 
       <div
         className={clsx(
-          "w-full transition-all ease-in-out duration-[480ms] p-3",
-          "space-y-3 bg-black/10",
+          "w-full transition-all ease-in-out duration-500 p-3",
+          "space-y-3 bg-black/20",
           !isOpened && "h-0 py-0 px-0"
         )}
       >
