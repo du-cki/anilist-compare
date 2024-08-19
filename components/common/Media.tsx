@@ -16,15 +16,12 @@ export default function Media({ media, isOpened, ...props }: Props) {
   return (
     <div className="rounded-lg overflow-clip relative">
       {media.bannerImage && (
-        <Image
-          src={media.bannerImage}
-          alt={`${media.title.romaji}'s banner image`}
-          fill={true}
-          sizes="100vw"
+        <div
           className={clsx(
             CARD_BACKGROUND,
-            "absolute top-0 left-0 right-0 bottom-0 z-[-1] opacity-50 object-cover"
+            "absolute top-0 left-0 right-0 bottom-0 -z-10 opacity-50 object-cover bg-cover bg-center"
           )}
+          style={{ backgroundImage: `url(${media.bannerImage})` }}
         />
       )}
 
