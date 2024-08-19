@@ -14,35 +14,38 @@ type Props = {
 
 export default function Media({ media, isOpened, ...props }: Props) {
   return (
-    <div className="rounded-lg overflow-clip">
+    <div className="rounded-lg overflow-clip relative">
+      {media.bannerImage && (
+        <Image
+          src={media.bannerImage}
+          alt={`${media.title.romaji}'s banner image`}
+          fill={true}
+          sizes="100vw"
+          className={clsx(
+            CARD_BACKGROUND,
+            "absolute top-0 left-0 right-0 bottom-0 z-[-1] opacity-50 object-cover"
+          )}
+        />
+      )}
+
       <div
         className={clsx(
           CARD_COMMON_CLASSES,
-          "flex items-center min-h-[90px] relative overflow-clip rounded-none",
-          "hover:cursor-pointer"
+          "flex items-center min-h-24 hover:cursor-pointer"
         )}
         {...props}
       >
-        {media.bannerImage && (
-          <Image
-            src={media.bannerImage}
-            alt={`${media.title.romaji}'s banner image`}
-            fill={true}
-            sizes="100vw"
-            className={clsx(
-              CARD_BACKGROUND,
-              "absolute top-0 left-0 right-0 bottom-0 z-[-1] opacity-50 object-cover"
-            )}
-          />
-        )}
-
-        <a href={`https://anilist.co/anime/${media.id}`}>
+        <a
+          href={`https://anilist.co/anime/${media.id}`}
+          className="min-w-[50px] mr-3"
+          onClick={(e) => e.stopPropagation()}
+        >
           <Image
             src={media.coverImage.medium}
             alt={`${media.title.romaji}'s cover image`}
-            height="50"
             width="50"
-            className="rounded-md mr-3 hover:opacity-80 transition-all"
+            height="70"
+            className="rounded-md hover:opacity-80 transition-all"
           />
         </a>
 
@@ -51,9 +54,9 @@ export default function Media({ media, isOpened, ...props }: Props) {
 
       <div
         className={clsx(
-          CARD_BACKGROUND,
-          "w-full transition-all ease-linear duration-400 p-3 space-y-3",
-          !isOpened && "h-0 py-0"
+          "w-full transition-all ease-in-out duration-[480ms] p-3",
+          "space-y-3 bg-black/10",
+          !isOpened && "h-0 py-0 px-0"
         )}
       >
         {Object.entries(media.statuses).map(([user, status]) => (
@@ -62,6 +65,7 @@ export default function Media({ media, isOpened, ...props }: Props) {
               <a
                 href={`https://anilist.co/user/${user}`}
                 className="font-extrabold text-lg default-text hover:underline"
+                onClick={(e) => e.stopPropagation()}
               >
                 {user}
               </a>
@@ -83,7 +87,7 @@ export default function Media({ media, isOpened, ...props }: Props) {
                     media.episodes || media.chapters || "?"
                   }`,
                 ],
-                ["Repeat", status.repeat ?? false],
+                ["Rewatches", status.repeat ?? false],
               ]
                 .filter(([_, v]) => v)
                 .map(([k, v]) => (
