@@ -42,7 +42,7 @@ function User({ user, onRemove }: Props) {
           alt={`${user.name}'s avatar`}
           height="50"
           width="50"
-          className="rounded-md"
+          className="rounded-md w-14 h-14"
         />
 
         <a
