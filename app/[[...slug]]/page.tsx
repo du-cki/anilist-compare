@@ -6,11 +6,33 @@ import HomePage from "@/components/home/HomePage";
 import { DEFAULT_LIST_STATUS, LIST_OPTIONS } from "@/utils/common";
 
 import type { ComparedListResponse, User as UserT } from "@/libs/anilist/types";
+import type { Metadata, ResolvingMetadata } from "next";
+import { humanJoin } from "@/utils/functions/common";
+import { metadata } from "../layout";
 
 type Props = {
   params: { slug?: string[] };
   searchParams: { list?: string };
 };
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const users = params.slug;
+
+  if (!users) {
+    return metadata; // default
+  }
+
+  const listStatus =
+    LIST_OPTIONS.find((o) => o.value === searchParams?.list?.toUpperCase())
+      ?.value || DEFAULT_LIST_STATUS;
+
+  return {
+    title: `Common ${listStatus.toLowerCase()} anime for ${humanJoin(users)}.`,
+  };
+}
 
 export default async function page({
   params: { slug },
