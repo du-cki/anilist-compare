@@ -33,12 +33,19 @@ const searchUsers = debounce(
   700,
 );
 
-export default function Page() {
-  const [users, setUsers] = useState<UserT[]>([]);
-  const [listStatus, setListStatus] = useState<ListStatusT>(
-    ListOptions[0].value,
-  );
-  const [mediaType, setMediaType] = useState<MediaTypeT>(MediaType[0].value);
+export default function Page({
+  initialUsers,
+  initialListStatus,
+  initialMediaType,
+}: {
+  initialUsers: UserT[];
+  initialListStatus: ListStatusT;
+  initialMediaType: MediaTypeT;
+}) {
+  const [users, setUsers] = useState<UserT[]>(initialUsers);
+  const [listStatus, setListStatus] = useState<ListStatusT>(initialListStatus);
+  const [mediaType, setMediaType] = useState<MediaTypeT>(initialMediaType);
+
   const [compared, setCompared] = useState<ComparedListResponse | null>(null);
 
   useEffect(() => {
@@ -55,8 +62,21 @@ export default function Page() {
   }, [users, listStatus, mediaType]);
 
   useEffect(() => {
-    console.log(compared);
-  }, [compared]);
+    const newPath =
+      users.length > 0
+        ? `/${users.map((u) => encodeURIComponent(u.name)).join("/")}`
+        : "/";
+
+    const params = new URLSearchParams(window.location.search);
+    params.set("list", listStatus);
+    params.set("type", mediaType);
+
+    const newUrl = `${newPath}?${params.toString()}`;
+
+    if (window.location.pathname + window.location.search !== newUrl) {
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [users, listStatus, mediaType]);
 
   return (
     <div className="space-y-10">
@@ -90,6 +110,7 @@ export default function Page() {
       <div className="space-y-2">
         {users.map((user) => (
           <User
+            key={user.name}
             user={user}
             onRemove={() =>
               setUsers((oldUsers) =>
@@ -123,7 +144,7 @@ export default function Page() {
       {compared && (
         <div className="space-y-8">
           {compared.map((media) => (
-            <Media media={media} />
+            <Media key={media.id} media={media} />
           ))}
         </div>
       )}
