@@ -52,7 +52,7 @@ export default function Media({ media }: Props) {
         onClick={() => setIsOpen(!isOpen)}
         className={clsx(
           CARD_COMMON_CLASSES,
-          "flex items-center p-3 h-max cursor-pointer select-none",
+          "flex items-center p-3 h-max select-none",
         )}
       >
         <a
@@ -62,7 +62,7 @@ export default function Media({ media }: Props) {
           onClick={(e) => e.stopPropagation()}
           className="relative w-20 shrink-0 aspect-2/3 rounded-lg shadow-lg overflow-hidden mr-3 block hover:opacity-80 transition-opacity"
           style={{ backgroundColor: coverImage.color || "#1f2937" }}
-          title={`View ${title.romaji} on AniList`}
+          title={title.romaji}
         >
           <img
             src={coverImage.medium}
@@ -77,22 +77,28 @@ export default function Media({ media }: Props) {
             {title.romaji}
           </h1>
 
-          <div className="text-sm text-gray-400 flex items-center gap-2 mt-1">
-            <span>{seasonYear || "N/A"}</span>
+          {(seasonYear || averageScore) && (
+            <div className="text-sm font-semibold flex items-center gap-2 mt-1">
+              {seasonYear && (
+                <span className="text-gray-300">{seasonYear}</span>
+              )}
 
-            <div className="flex items-center gap-1 text-yellow-400">
-              <Star className="w-4 h-4 fill-current" />
-              <span className="text-gray-300">
-                {averageScore ? toTenPointDecimal(averageScore) : "N/A"}
-              </span>
+              {averageScore && (
+                <div className="flex items-center gap-1 text-yellow-400">
+                  <Star className="w-4 h-4 fill-current" />
+                  <span className="text-gray-300">
+                    {toTenPointDecimal(averageScore)}
+                  </span>
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
 
         <div className="ml-2 p-2 shrink-0 flex items-center justify-center">
           <ChevronDown
             className={clsx(
-              "w-5 h-5 text-gray-300 transition-transform duration-300",
+              "w-5 h-5 text-gray-300 transition-transform duration-300 cursor-pointer",
               isOpen && "rotate-180",
             )}
           />

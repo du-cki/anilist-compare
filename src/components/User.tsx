@@ -48,10 +48,10 @@ export default function User({ user, onRemove }: Props) {
       </div>
 
       <button
-        className="fill-gray-400 hover:bg-gray-300/80 dark:hover:bg-gray-200/20 rounded-lg"
+        className="ml-1 p-1 fill-gray-300 rounded-full hover:bg-white/10 transition-colors focus:outline-none cursor-pointer"
         onClick={() => onRemove?.()}
       >
-        <X height="30" width="30" />
+        <X className="w-5 h-5 " />
       </button>
     </div>
   );
