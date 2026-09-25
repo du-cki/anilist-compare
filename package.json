@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/react": "7.0.0",
+    "@astrojs/vercel": "^11.0.11",
     "@tailwindcss/vite": "^4.2.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
