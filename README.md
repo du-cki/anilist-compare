@@ -35,6 +35,8 @@ $ curl -X POST https://anilist-comparison.vercel.app/api/ducki3/blankets/itswill
     "seasonYear": 2019,
     "coverImage": {
       "medium": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx101922-WBsBl0ClmgYL.jpg",
+      "large": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101922-WBsBl0ClmgYL.jpg",
+      "extraLarge": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx101922-WBsBl0ClmgYL.jpg",
       "color": "#f1c9ae"
     },
     "statuses": {

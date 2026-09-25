@@ -27,6 +27,8 @@ export type Media = {
   averageScore: number;
   coverImage: {
     medium: string;
+    large: string;
+    extraLarge: string;
     color: string;
   };
 };

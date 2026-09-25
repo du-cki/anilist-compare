@@ -135,6 +135,8 @@ class AniListClient {
                       seasonYear
                       coverImage {
                         medium
+                        large
+                        extraLarge
                         color
                       }
                     }
