@@ -65,7 +65,7 @@ export default function Media({ media }: Props) {
           title={title.romaji}
         >
           <img
-            src={coverImage.medium}
+            src={coverImage.large}
             alt={`${title.romaji} cover`}
             className="w-full h-full object-cover transition-opacity"
             loading="lazy"
