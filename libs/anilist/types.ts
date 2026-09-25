@@ -1,4 +1,4 @@
-import { LIST_OPTIONS } from "@/utils/common";
+import { ListOptions } from "../../utils";
 
 export type AniListError = {
   errors: {
@@ -13,23 +13,22 @@ type BaseResponse<T> = {
 };
 
 export type MediaType = "ANIME" | "MANGA";
-
-export type ListStatus = (typeof LIST_OPTIONS)[number]["value"];
+export type ListStatus = (typeof ListOptions)[number]["value"];
 
 export type Media = {
   id: number;
   title: {
     romaji: string;
   };
+  episodes: Option<number>;
+  chapters: Option<number>;
+  bannerImage: Option<string>;
+  seasonYear: number;
+  averageScore: number;
   coverImage: {
-    large: string;
+    medium: string;
     color: string;
   };
-  episodes: Option<string>;
-  chapters: Option<string>;
-  bannerImage: Option<string>;
-  seasonYear: Option<number>;
-  averageScore: Option<number>;
 };
 
 export type MediaList = {
