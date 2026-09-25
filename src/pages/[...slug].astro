@@ -1,0 +1,43 @@
+---
+import Page from "../components/Page";
+import Main from "../layouts/Main.astro";
+
+import {
+  anilist,
+  DEFAULT_LIST_STATUS,
+  ListOptions,
+  MediaType,
+} from "../../utils";
+import type { User } from "../../libs/anilist/types";
+
+const { slug } = Astro.params;
+const slugArray = slug ? slug.split("/") : undefined;
+
+const listQuery = Astro.url.searchParams.get("list");
+const listStatus =
+  ListOptions.find((o) => o.value === listQuery?.toUpperCase())?.value ||
+  DEFAULT_LIST_STATUS;
+
+const mediaQuery = Astro.url.searchParams.get("type");
+const mediaType =
+  MediaType.find((o) => o.value === mediaQuery?.toUpperCase())?.value ||
+  MediaType[0].value;
+
+let users: User[] = [];
+try {
+  if (slugArray && slugArray.length > 0) {
+    users = await anilist.fetchUserProfiles(slugArray);
+  }
+} catch (e) {
+  users = [];
+}
+---
+
+<Main>
+  <Page
+    client:load
+    initialUsers={users}
+    initialListStatus={listStatus}
+    initialMediaType={mediaType}
+  />
+</Main>

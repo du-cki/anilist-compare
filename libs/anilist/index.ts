@@ -1,10 +1,9 @@
-import tag from "@/utils/functions/tag";
+import { tag } from "../../utils";
 
-import {
+import type {
   AniListMediaResponse,
   AniListUserResponse,
   AniListUserSearchResponse,
-  Media,
   MediaType,
   ListStatus,
   User,
@@ -12,32 +11,14 @@ import {
   ComparedListResponse,
 } from "./types";
 
-type TagParser = (url: Option<string>, text: Option<string>) => string;
-
-const TAG_MAPPING: { [key: string]: TagParser } = {
-  a: (url, text) => `[${text}](${url})`,
-  br: (_, _text) => "\n",
-  i: (_, text) => `__${text}__`,
-  b: (_, text) => `**${text}**`,
-};
-
 class AniListClient {
   private readonly BASE_URL = "https://graphql.anilist.co/";
   private readonly BASE_HEADERS = {
-    "User-Agent":
-      "Anilist-Comparison (https://github.com/du-cki/Anilist-Comparison)",
+    "User-Agent": "Anilist-Compare (https://github.com/du-cki/anilist-compare)",
     "Content-Type": "application/json",
     Accept: "application/json",
+    Referer: "https://anilist.co",
   };
-
-  private cleanMarkup(text: string) {
-    return text.replace(
-      /\<(?<tag>[a-zA-Z]+)(?: href=\"(?<url>.*)\")?\>(?:(?<text>[\s\S]+?)\<\/\1\>)?/gim,
-      (_: string, tag: string, url: string, text: string) => {
-        return TAG_MAPPING[tag]?.(url, text) || text;
-      }
-    );
-  }
 
   async query<T>({
     query,
@@ -48,8 +29,6 @@ class AniListClient {
     variables?: Record<string, any>;
     headers?: Record<string, string>;
   }): Promise<T> {
-    console.log("Querying anilist...");
-
     const sentHeaders: Record<string, string> = {
       ...this.BASE_HEADERS,
       ...headers,
@@ -73,7 +52,32 @@ class AniListClient {
     return data;
   }
 
-  async fetchUserProfiles({ users }: { users: string[] }): Promise<User[]> {
+  async searchUsers(search: string): Promise<User[]> {
+    const query = `
+      query ($search: String) {
+        users: Page(perPage: 10) {
+          results: users(search: $search) {
+            id
+            name
+            avatar {
+              large
+            }
+          }
+        }
+      }
+    `;
+
+    const req = await this.query<AniListUserSearchResponse>({
+      query,
+      variables: {
+        search,
+      },
+    });
+
+    return req?.data?.users?.results || [];
+  }
+
+  async fetchUserProfiles(users: string[]): Promise<User[]> {
     const query = tag(`query {{users}}`, {
       users: users.map(
         (user) => `
@@ -84,7 +88,7 @@ class AniListClient {
                     large
                 }
             }
-        `
+        `,
       ),
     });
 
@@ -127,6 +131,8 @@ class AniListClient {
                       episodes
                       chapters
                       bannerImage
+                      averageScore
+                      seasonYear
                       coverImage {
                         medium
                         color
@@ -135,9 +141,9 @@ class AniListClient {
                   }
                 }
               }
-        `
+        `,
         ),
-      }
+      },
     );
 
     const { data: resp } = await this.query<AniListMediaResponse>({
@@ -151,26 +157,26 @@ class AniListClient {
     const mediaSets = Object.values(resp).map(
       ({ lists }) =>
         new Set(
-          lists.flatMap(({ entries }) => entries.map(({ media }) => media.id))
-        )
+          lists.flatMap(({ entries }) => entries.map(({ media }) => media.id)),
+        ),
     );
 
     const commonMediaIDs = mediaSets.reduce(
-      (a, b) => new Set([...a].filter((id) => b.has(id)))
+      (a, b) => new Set([...a].filter((id) => b.has(id))),
     );
 
     const commonMedia = [
       ...new Map(
         Object.values(resp)
           .flatMap(({ lists }) =>
-            lists.flatMap(({ entries }) => entries.map(({ media }) => media))
+            lists.flatMap(({ entries }) => entries.map(({ media }) => media)),
           )
           .filter(({ id }) => commonMediaIDs.has(id))
           .map((media) => {
             const statuses = Object.entries(resp).reduce(
               (acc, [user, { lists }]) => {
                 const entry = lists?.[0]?.entries.find(
-                  ({ media: { id } }) => id === media.id
+                  ({ media: { id } }) => id === media.id,
                 );
 
                 if (entry) {
@@ -188,7 +194,7 @@ class AniListClient {
 
                 return acc;
               },
-              {} as Record<string, Status>
+              {} as Record<string, Status>,
             );
 
             return [
@@ -198,36 +204,11 @@ class AniListClient {
                 statuses,
               },
             ];
-          })
+          }),
       ).values(),
     ];
 
     return commonMedia;
-  }
-
-  async searchUsers({ search }: { search: string }): Promise<User[]> {
-    const query = `
-      query ($search: String) {
-        users: Page(perPage: 10) {
-          results: users(search: $search) {
-            id
-            name
-            avatar {
-              large
-            }
-          }
-        }
-      }
-    `;
-
-    const req = await this.query<AniListUserSearchResponse>({
-      query,
-      variables: {
-        search,
-      },
-    });
-
-    return req?.data?.users?.results || [];
   }
 }
 

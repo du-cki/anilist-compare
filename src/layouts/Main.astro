@@ -1,0 +1,34 @@
+---
+import "../styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const {
+  title = "AniList Compare",
+  description = "A simple tool to compare AniList anime and manga lists between multiple users.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    <meta name="description" content={description} />
+    <title>AniList Compare</title>
+  </head>
+
+  <body class="bg-dark text-white antialiased">
+    <main class="max-w-2xl mx-auto px-6 py-20 space-y-12">
+      <slot />
+    </main>
+  </body>
+</html>

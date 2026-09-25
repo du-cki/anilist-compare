@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dark: #111111;
+}
+
+@layer components {
+  .react-select-theme-container.searchable .react-select-theme__control {
+    @apply hover:cursor-text;
+  }
+
+  .react-select-theme-container .react-select-theme__control {
+    @apply border-2 transition-all bg-neutral-700 border-neutral-700 hover:border-neutral-500;
+  }
+
+  .react-select-theme-container .react-select-theme__control--is-focused {
+    @apply shadow-none transition-all border-neutral-400 hover:border-neutral-500;
+  }
+
+  .react-select-theme-container .react-select-theme__menu {
+    @apply border-2 transition-all bg-neutral-700 border-neutral-600;
+  }
+
+  .react-select-theme-container .react-select-theme__option {
+    @apply transition-all text-neutral-200 bg-neutral-700 hover:bg-neutral-800/40;
+  }
+
+  .react-select-theme-container .react-select-theme__option--is-disabled {
+    @apply opacity-80 pointer-events-none bg-neutral-800/40;
+  }
+
+  .react-select-theme-container .react-select-theme__indicator-separator {
+    @apply bg-neutral-400;
+  }
+
+  .react-select-theme-container .react-select-theme__input-container,
+  .react-select-theme-container .react-select-theme__placeholder,
+  .react-select-theme-container .react-select-theme__single-value {
+    @apply transition-all text-neutral-200;
+  }
+
+  .react-select-theme-container .react-select-theme__control {
+    @apply flex items-center gap-2 min-h-10 px-3 py-1 rounded-md;
+  }
+  .react-select-theme-container .react-select-theme__value-container {
+    @apply flex flex-wrap gap-1 px-1 py-0.5;
+  }
+  .react-select-theme-container .react-select-theme__indicators {
+    @apply flex items-center gap-1 px-2;
+  }
+  .react-select-theme-container .react-select-theme__menu-list {
+    @apply py-1 max-h-72 overflow-y-auto;
+  }
+  .react-select-theme-container .react-select-theme__option {
+    @apply px-3 py-2 cursor-pointer;
+  }
+}
