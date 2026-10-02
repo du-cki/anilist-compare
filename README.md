@@ -12,7 +12,7 @@ This app also exposes a few JSON API routes;
 ### `POST /api/{...users}?list={list}&type={type}`
 
 `list?`: The type of list to retrieve.
-- Valid values: `PLANNING`, `COMPLETED`, `CURRENT`, `DROPPED`, `REPEATING`, `PAUSED`.
+- Valid values: `PLANNING`, `COMPLETED`, `CURRENT`, `DROPPED`, `REPEATING`, `PAUSED` or `ALL`.
 
 `type?`: The media type.
 - Valid values: `ANIME`, `MANGA`

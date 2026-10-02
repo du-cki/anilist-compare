@@ -109,12 +109,22 @@ class AniListClient {
     mediaType?: MediaType;
     listStatus?: ListStatus;
   }): Promise<ComparedListResponse> {
-    const query = tag(
-      `query ($mediaType: MediaType, $status: MediaListStatus) {{users}}`,
-      {
-        users: users.map(
-          (user) => `
-            ${user}: MediaListCollection(userName: "${user}", type: $mediaType, status: $status) {
+    const hasStatusFilter = listStatus && listStatus !== "ALL";
+
+    const queryParams = hasStatusFilter
+      ? `($mediaType: MediaType, $status: MediaListStatus)`
+      : `($mediaType: MediaType)`;
+
+    const getCollectionArgs = (user: string) =>
+      hasStatusFilter
+        ? `userName: "${user}", type: $mediaType, status: $status`
+        : `userName: "${user}", type: $mediaType`;
+
+    const query = tag(`query {queryParams} {{users}}`, {
+      queryParams,
+      users: users.map(
+        (user) => `
+            ${user}: MediaListCollection(${getCollectionArgs(user)}) {
                 lists {
                   name
                   entries {
@@ -144,9 +154,8 @@ class AniListClient {
                 }
               }
         `,
-        ),
-      },
-    );
+      ),
+    });
 
     const { data: resp } = await this.query<AniListMediaResponse>({
       query,

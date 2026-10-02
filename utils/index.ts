@@ -12,6 +12,7 @@ export const ListOptions = [
   { label: "Dropped", value: "DROPPED" },
   { label: "Repeating", value: "REPEATING" },
   { label: "Paused", value: "PAUSED" },
+  { label: "All", value: "ALL" },
 ] as const;
 
 export const MediaType = [
